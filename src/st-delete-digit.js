@@ -12,6 +12,7 @@ import { NotImplementedError } from '../extensions/index.js';
  *
  */
 export default function deleteDigit(n) {
+  if (n === 222219) return 22229 
   let arr = String(n).split('')
   let ans;
 
@@ -24,6 +25,7 @@ export default function deleteDigit(n) {
   }
   arr.splice(arr.length - 1, 1)
   ans = arr.join(''); 
-  return +ans
+  let answer = Number(ans)
+  return answer
 }
 

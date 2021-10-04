@@ -13,39 +13,36 @@ import { NotImplementedError } from '../extensions/index.js';
  * transform([1, 2, 3, '--discard-prev', 4, 5]) => [1, 2, 4, 5]
  * 
  */
-export default function transform(arr ) {
-  let newArr = [...arr]
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === '--discard-next' && i < newArr.length - 1) {
-      newArr[i] = null;
-      newArr[i + 1] = null;
-    }
-    if (arr[i] === '--discard-next' && i === newArr.length - 1) {
-      newArr[i] = null;
-    }
-    if (arr[i] === '--discard-prev' && i > 0) {
-      newArr[i] = null;
-      newArr[i - 1] = null;
-    }
-    if (arr[i] === '--discard-prev' && i === 0) {
-      newArr[i] = null;
-    }
-    if (arr[i] === '--double-next' && i < arr.length - 1) {
-      newArr[i] = newArr[i + 1];
+export default function transform(arr) {
+  let result = [], pact = false;
 
-    }
-    if (arr[i] === '--double-next' && i === arr.length - 1) {
-      newArr[i] = null
-    }
-    if (arr[i] === '--double-prev' && i > 0) {
-      newArr[i] = newArr[i - 1]
-    }
-    if (arr[i] === '--double-prev' && i === 0) {
-      newArr[i] = null;
+  for (let i = 0; i < arr.length; i++) {
+      switch (arr[i]) {
+        case '--discard-next':
+          if (i !== arr.length - 1) {
+            i++;
+            pact = true;
+          }
+          break;
+        case '--discard-prev':
+          if (i !== 0  && !pact) {
+            result.pop();
+          }
+          break;
+        case '--double-next':
+          if (i !== arr.length - 1) {
+            result.push(arr[i+1])
+          }
+          break;
+        case '--double-prev':
+          if (i !== 0 && !pact) {
+            result.push(arr[i-1]);
+          }
+          break;
+        default:
+          result.push(arr[i]);
+          pact = false;
     }
   }
-
-  return newArr.filter(function (item) {
-    return item !== null
-  })
+  return result;
 }
