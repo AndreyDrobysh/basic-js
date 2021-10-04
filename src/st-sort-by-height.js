@@ -11,7 +11,7 @@ import { NotImplementedError } from '../extensions/index.js';
  *
  * The result should be [-1, 150, 160, 170, -1, -1, 180, 190]
  */
-export default function sortByHeight(arr) {
+export default function sortByHeight(_arr) {
   const arr = [..._arr];
   function compareNumeric(a, b) {
     if (a > b) return 1;
